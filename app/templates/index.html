@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UniEvent</title>
+  <style>
+    :root {
+      --ink: #12263a;
+      --bg1: #f7f4ea;
+      --bg2: #d9e6f2;
+      --accent: #ff6b35;
+      --card: #ffffff;
+    }
+    body {
+      margin: 0;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      background: linear-gradient(120deg, var(--bg1), var(--bg2));
+      color: var(--ink);
+    }
+    header {
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      letter-spacing: 0.04em;
+    }
+    .meta {
+      margin-top: 0.7rem;
+      font-size: 0.95rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 1rem;
+      box-shadow: 0 8px 24px rgba(18, 38, 58, 0.1);
+      border-top: 5px solid var(--accent);
+    }
+    .card h3 {
+      margin: 0 0 0.6rem;
+      font-size: 1.2rem;
+    }
+    .card p {
+      margin: 0.35rem 0;
+      line-height: 1.4;
+      font-size: 0.95rem;
+    }
+    .link {
+      display: inline-block;
+      margin-top: 0.6rem;
+      color: var(--accent);
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .empty {
+      text-align: center;
+      margin: 2rem;
+      font-size: 1rem;
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>UniEvent - University Events</h1>
+    <div class="meta">
+      Data source: {{ data.source }} | Last updated: {{ data.last_updated or "N/A" }}
+    </div>
+  </header>
+
+  {% if data.events %}
+    <section class="grid">
+      {% for event in data.events %}
+        <article class="card">
+          <h3>{{ event.title }}</h3>
+          <p><strong>Date:</strong> {{ event.date or "TBA" }} {{ event.time or "" }}</p>
+          <p><strong>Venue:</strong> {{ event.venue }}{% if event.city %}, {{ event.city }}{% endif %}</p>
+          <p><strong>Description:</strong> {{ event.description }}</p>
+          {% if event.external_url %}
+            <a class="link" href="{{ event.external_url }}" target="_blank" rel="noopener">Event Details</a>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </section>
+  {% else %}
+    <div class="empty">No events available yet. The scheduler will fetch events shortly.</div>
+  {% endif %}
+</body>
+</html>

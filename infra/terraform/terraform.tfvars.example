@@ -1,0 +1,5 @@
+project_name           = "unievent"
+aws_region             = "us-east-1"
+app_repo_url           = "https://github.com/<your-username>/UniEvent.git"
+ticketmaster_api_key   = "REPLACE_WITH_API_KEY"
+instance_type          = "t3.micro"
